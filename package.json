@@ -4,7 +4,7 @@
   "description": "A Local Music Player base on Electron.",
   "main": "main.js",
   "scripts": {
-    "start": "nodemon --watch main.js --exec electron ."
+    "start": "nodemon -e js,html,css --exec electron ."
   },
   "repository": {
     "type": "git",
@@ -16,12 +16,15 @@
   ],
   "author": "Emmett Woo",
   "license": "MIT",
-  "devDependencies": {
-    "electron": "^9.0.2",
-    "nodemon": "^2.0.4"
-  },
   "bugs": {
     "url": "https://github.com/Emmettwoo/EMM-MusicPlayer/issues"
   },
-  "homepage": "https://github.com/Emmettwoo/EMM-MusicPlayer#readme"
+  "homepage": "https://github.com/Emmettwoo/EMM-MusicPlayer#readme",
+  "dependencies": {
+    "bootstrap": "^4.5.0"
+  },
+  "devDependencies": {
+    "electron": "^9.0.2",
+    "nodemon": "^2.0.4"
+  }
 }

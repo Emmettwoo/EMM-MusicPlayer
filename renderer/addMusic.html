@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>EMM-MusicPlayer</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./addMusic.css" />
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2 class="window-title">
+            添加歌曲到&nbsp;播放列表
+        </h2>
+        <button type="button" id="add-music-manual-button" class="btn btn-primary btn-lg btn-block mt-4">
+            手动添加 
+        </button>
+        <button type="button" id="add-music-import-button" class="btn btn-info btn-lg btn-block mt-4">
+            自动导入 
+        </button>
+    </div>
+
+    <script>
+        require("./addMusic.js");
+    </script>
+</body>
+
+</html>
