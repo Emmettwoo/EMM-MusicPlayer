@@ -1,8 +1,14 @@
 const {
 	app,
 	BrowserWindow,
-	ipcMain
+	ipcMain,
+	dialog
 } = require('electron');
+const DataUtil = require("./utils/DataUtil");
+
+const dataUtil = new DataUtil({
+	name: "data"
+});
 
 // 封装一个窗口初始化类（带默认参数）
 class AppWindows extends BrowserWindow {
@@ -17,7 +23,10 @@ class AppWindows extends BrowserWindow {
 		};
 		// 传入配置覆盖默认配置（二选一）
 		// const finalConfig = Object.assign(defaultConfig, config);
-		const finalConfig = {...defaultConfig, ...config};
+		const finalConfig = {
+			...defaultConfig,
+			...config
+		};
 		super(finalConfig);
 
 		// 窗口载入指定的UI内容并渲染显示
@@ -30,13 +39,38 @@ class AppWindows extends BrowserWindow {
 
 app.on("ready", () => {
 	const mainWindow = new AppWindows({}, "./renderer/index.html");
+	mainWindow.webContents.on("did-finish-load", () => {
+		mainWindow.send("load-music-list", dataUtil.getTracks());
+	})
 
-	// 添加音乐 窗口调用监听事件
-	ipcMain.on("add-music-window-active", (event, args) => {
-		const addMusicWindow = new 	AppWindows({
+	// 添加音乐窗口 按钮调用事件
+	ipcMain.on("add-music-window-button-click", () => {
+		const addMusicWindow = new AppWindows({
 			width: 500,
 			height: 400,
 			parent: mainWindow
 		}, "./renderer/addMusic.html");
+	});
+
+	// 选择音乐功能 按钮调用事件
+	ipcMain.on("add-music-select-button-click", (event) => {
+		dialog.showOpenDialog({
+			properties: ["openFile", "multiSelections"],
+			filters: [{
+				name: "Music",
+				extensions: ["mp3"]
+			}]
+		}).then((files) => {
+			if(files) {
+				event.sender.send("add-music-select-button-done", files.filePaths);
+			}
+		}).catch((err) => {
+			console.log(err);
+		});
+	});
+
+	// 保存列表功能 按钮调用事件
+	ipcMain.on("add-music-save-button-click", (event, tracksPath) => {
+		mainWindow.send("load-music-list", dataUtil.addTracks(tracksPath).getTracks());
 	});
 });
