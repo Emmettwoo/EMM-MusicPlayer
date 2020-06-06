@@ -73,4 +73,9 @@ app.on("ready", () => {
 	ipcMain.on("add-music-save-button-click", (event, tracksPath) => {
 		mainWindow.send("load-music-list", dataUtil.addTracks(tracksPath).getTracks());
 	});
+
+	// 主窗口音乐列表 删除音乐 按钮调用事件
+	ipcMain.on("tracks-list-delete-button-click", (event, trackId) => {
+		mainWindow.send("load-music-list", dataUtil.deleteTrack(trackId).getTracks());
+	});
 });

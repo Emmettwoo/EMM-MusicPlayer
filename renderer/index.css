@@ -1,3 +1,7 @@
 .welcome-message {
     text-align: center;
 }
+
+.music-control-button .fa:hover {
+    cursor: pointer;
+}

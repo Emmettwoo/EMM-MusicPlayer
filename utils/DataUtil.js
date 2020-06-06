@@ -45,6 +45,12 @@ class DataUtil extends Store {
         this.tracks = [...this.tracks, ...newTracks];
         return this.saveTracks();
     }
+
+    // 删除音乐列表的指定项（id匹配）
+    deleteTrack(trackId) {
+        this.tracks = this.tracks.filter((track) => track.id !== trackId);
+        return this.saveTracks();
+    }
 }
 
 module.exports = DataUtil;
