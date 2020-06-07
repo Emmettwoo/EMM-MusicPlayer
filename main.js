@@ -5,7 +5,6 @@ const {
 	dialog
 } = require('electron');
 const DataUtil = require("./utils/DataUtil");
-
 const dataUtil = new DataUtil({
 	name: "data"
 });
@@ -40,20 +39,11 @@ class AppWindows extends BrowserWindow {
 app.on("ready", () => {
 	const mainWindow = new AppWindows({}, "./renderer/index.html");
 	mainWindow.webContents.on("did-finish-load", () => {
-		mainWindow.send("load-music-list", dataUtil.getTracks());
-	})
-
-	// 添加音乐窗口 按钮调用事件
-	ipcMain.on("add-music-window-button-click", () => {
-		const addMusicWindow = new AppWindows({
-			width: 500,
-			height: 400,
-			parent: mainWindow
-		}, "./renderer/addMusic.html");
+		mainWindow.send("load-track-list", dataUtil.getTracks());
 	});
 
 	// 选择音乐功能 按钮调用事件
-	ipcMain.on("add-music-select-button-click", (event) => {
+	ipcMain.on("add-track-click", (event) => {
 		dialog.showOpenDialog({
 			properties: ["openFile", "multiSelections"],
 			filters: [{
@@ -61,8 +51,8 @@ app.on("ready", () => {
 				extensions: ["mp3"]
 			}]
 		}).then((files) => {
-			if(files) {
-				event.sender.send("add-music-select-button-done", files.filePaths);
+			if (files) {
+				event.sender.send("add-track-done", files.filePaths);
 			}
 		}).catch((err) => {
 			console.log(err);
@@ -70,12 +60,12 @@ app.on("ready", () => {
 	});
 
 	// 保存列表功能 按钮调用事件
-	ipcMain.on("add-music-save-button-click", (event, tracksPath) => {
-		mainWindow.send("load-music-list", dataUtil.addTracks(tracksPath).getTracks());
+	ipcMain.on("add-track-save", (event, tracksPath) => {
+		mainWindow.send("load-track-list", dataUtil.addTracks(tracksPath).getTracks());
 	});
 
 	// 主窗口音乐列表 删除音乐 按钮调用事件
 	ipcMain.on("tracks-list-delete-button-click", (event, trackId) => {
-		mainWindow.send("load-music-list", dataUtil.deleteTrack(trackId).getTracks());
+		mainWindow.send("load-track-list", dataUtil.deleteTrack(trackId).getTracks());
 	});
 });
