@@ -19,13 +19,19 @@ const renderMusicListHTML = (tracks) => {
                     <b>${track.fileName}</b>
                 </div> 
                 <div class="music-control-button col-2">
-                    <i class="fa fa-play mr-3" data-id="${track.id}"></i>
+                    
+                    ${(currentTrack && track.id === currentTrack.id) ? 
+                        `<i class="fa fa-pause mr-3" data-id="${track.id}"></i>` :
+                        `<i class="fa fa-play mr-3" data-id="${track.id}"></i>`
+                    }
+
                     <i class="fa fa-trash" data-id="${track.id}"></i>
                 </div>
             </li>`;
         return html;
     }, "");
-    const emptyTrackHTML = `<div class="alert alert-primary">播放列表为空</div>`
+    const emptyTrackHTML = `<div class="alert alert-primary">播放列表为空</div>`;
+
     tracksList.innerHTML = tracks.length ? `<ul class="list-group">${tracksListHTML}</ul>` : emptyTrackHTML;
 }
 
@@ -66,7 +72,8 @@ $("tracks-list-wrap").addEventListener("click", (event) => {
             // 音乐暂停播放，原播放图形替换为暂停
             classList.replace("fa-pause", "fa-play");
         } else if(classList.contains("fa-trash") && confirm("确认从播放列表移除？")) {
-            ipcRenderer.send("tracks-list-delete-button-click", currentTrackId);
+            musicAudio.pause();
+            ipcRenderer.send("tracks-list-delete-button-click", currentTrackId); 
         }
     } else {
         alert("播放音乐时出现错误！");
@@ -75,7 +82,6 @@ $("tracks-list-wrap").addEventListener("click", (event) => {
 
 // 监听 渲染列表 事件的通知
 ipcRenderer.on("load-music-list", (event, tracks) => {
-    // fixme: 会重置 播放按钮 的替换状态
     allTracks = tracks;
     renderMusicListHTML(allTracks);
 });
