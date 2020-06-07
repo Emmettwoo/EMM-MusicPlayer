@@ -17,7 +17,24 @@
         <button type="button" id="add-music-window-button" class="btn btn-primary btn-lg btn-block mt-4">
             添加歌曲
         </button>
-        <div id="tracks-list-wrap" class="mt-4"><div>
+        <div id="tracks-list-wrap" class="mt-4"></div>
+    </div>
+    <div class="container fixed-bottom bg-white pb-4">
+        <hr />
+        <div id="playing-status">
+            <div class="font-weight-bold">
+                正在播放: 无
+            </div>
+            <div class="palying-duration">
+                <span id="playing-status-seeker">00 : 00</span> / 00 : 00
+            </div>
+        </div>
+        
+        <div class="progress">
+            <div id="playing-progress-bar" class="progress-bar progress-bar-striped active bg-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                <span class="sr-only"></span>
+            </div>
+        </div>
     </div>
 
     <script>

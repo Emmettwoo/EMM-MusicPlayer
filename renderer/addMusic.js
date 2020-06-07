@@ -33,5 +33,6 @@ ipcRenderer.on("add-music-select-button-done", (event, newTracksPath) => {
 
 // 监听 保存列表 按钮的点击
 $("add-music-save-button").addEventListener("click", () => {
+    // todo: 保存后自动关闭窗口
     ipcRenderer.send("add-music-save-button-click", tracksPath);
 });

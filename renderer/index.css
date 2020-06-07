@@ -5,3 +5,12 @@
 .music-control-button .fa:hover {
     cursor: pointer;
 }
+
+#playing-status {
+    display: block;
+    text-align: center;
+}
+
+.palying-duration {
+    margin-bottom: 5px;
+}

@@ -4,6 +4,7 @@ const {
 const {
     $
 } = require("../utils/DOMUtil.js");
+const {trackDurationFormart} = require("../utils/TimeUtil");
 
 let musicAudio = new Audio();
 let allTracks, currentTrack;
@@ -33,6 +34,28 @@ const renderMusicListHTML = (tracks) => {
     const emptyTrackHTML = `<div class="alert alert-primary">播放列表为空</div>`;
 
     tracksList.innerHTML = tracks.length ? `<ul class="list-group">${tracksListHTML}</ul>` : emptyTrackHTML;
+}
+
+const renderPlayingStatusHTML = (trackName, trackDuration) => {
+    const playingStatus = $("playing-status");
+    const playingStatusHTML = 
+    `<div class="font-weight-bold">
+        正在播放：${trackName}
+    </div>
+    <div class="palying-duration">
+        <span id="playing-status-seeker">00 : 00</span> / ${trackDurationFormart(trackDuration)}
+    </div>`;
+    playingStatus.innerHTML = playingStatusHTML;   
+}
+
+const renderPlayingSeeker = (seekerTime, trackDuration) => {
+    const playingProgress = Math.floor(seekerTime/trackDuration * 100);
+    const playingProgressBar = $("playing-progress-bar");
+    // playingProgressBar.innerHTML = playingProgress + "%";
+    playingProgressBar.style.width = playingProgress + "%";
+
+    const seeker = $("playing-status-seeker");
+    seeker.innerHTML = trackDurationFormart(seekerTime);
 }
 
 
@@ -72,12 +95,26 @@ $("tracks-list-wrap").addEventListener("click", (event) => {
             // 音乐暂停播放，原播放图形替换为暂停
             classList.replace("fa-pause", "fa-play");
         } else if(classList.contains("fa-trash") && confirm("确认从播放列表移除？")) {
-            musicAudio.pause();
+            // 删除的音乐为当前播放曲目，则暂停播放
+            if(currentTrack && currentTrack.id === currentTrackId) {
+                // todo: 目标歌曲被删除，播放状态栏重置
+                musicAudio.pause();
+            }
             ipcRenderer.send("tracks-list-delete-button-click", currentTrackId); 
         }
     } else {
         alert("播放音乐时出现错误！");
     }
+});
+
+// 音乐播放器 状态监听渲染(初始加载）
+musicAudio.addEventListener("loadedmetadata", (event) => {
+    renderPlayingStatusHTML(currentTrack.fileName, musicAudio.duration);
+});
+
+// 音乐播放器 状态监听渲染（更新时间）
+musicAudio.addEventListener("timeupdate", () => {
+    renderPlayingSeeker(musicAudio.currentTime, musicAudio.duration);
 });
 
 // 监听 渲染列表 事件的通知
