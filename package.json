@@ -1,34 +1,78 @@
 {
-  "name": "emm-musicplayer",
-  "version": "1.0.0",
-  "description": "A Local Music Player base on Electron.",
-  "main": "main.js",
-  "scripts": {
-    "start": "nodemon -e js,html,css --exec electron ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Emmettwoo/EMM-MusicPlayer.git"
-  },
-  "keywords": [
-    "Music",
-    "Electron"
-  ],
-  "author": "Emmett Woo",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Emmettwoo/EMM-MusicPlayer/issues"
-  },
-  "homepage": "https://github.com/Emmettwoo/EMM-MusicPlayer#readme",
-  "dependencies": {
-    "bootstrap": "^4.5.0",
-    "electron-store": "^5.1.1",
-    "jquery": "^1.9.1",
-    "popper.js": "^1.16.1",
-    "uuid": "^8.1.0"
-  },
-  "devDependencies": {
-    "electron": "^9.0.2",
-    "nodemon": "^2.0.4"
-  }
+    "name": "emm-musicplayer",
+    "version": "1.0.0",
+    "description": "A Local Music Player base on Electron.",
+    "main": "main.js",
+    "scripts": {
+        "dev": "nodemon -e js,html,css --exec electron .",
+        "dist": "electron-builder"
+    },
+    "build": {
+        "productName": "EMM-MusicPlayer",
+        "appId": "top.woohoo.musicplayer",
+        "mac": {
+            "category": "public.app-category.music"
+        },
+        "dmg": {
+            "background": "build/appdmg.png",
+            "icon": "build/icon.icns",
+            "iconSize": 100,
+            "contents": [
+                {
+                    "x": 380,
+                    "y": 280,
+                    "type": "link",
+                    "path": "/Applications"
+                },
+                {
+                    "x": 110,
+                    "y": 280,
+                    "type": "file"
+                }
+            ],
+            "window": {
+                "width": 500,
+                "height": 500
+            }
+        },
+        "linux": {
+			"icon": "build/icons",
+            "target": [
+                "AppImage",
+                "deb",
+                "rpm",
+                "apk"
+            ]
+        },
+        "win": {
+            "target": "portable",
+            "icon": "build/icon.ico"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Emmettwoo/EMM-MusicPlayer.git"
+    },
+    "keywords": [
+        "Music",
+        "Electron"
+    ],
+    "author": "Emmett Woo",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Emmettwoo/EMM-MusicPlayer/issues"
+    },
+    "homepage": "https://github.com/Emmettwoo/EMM-MusicPlayer#readme",
+    "dependencies": {
+        "bootstrap": "^4.5.0",
+        "electron-store": "^5.1.1",
+        "jquery": "^1.9.1",
+        "popper.js": "^1.16.1",
+        "uuid": "^8.1.0"
+    },
+    "devDependencies": {
+        "electron": "^9.0.2",
+        "electron-builder": "^22.7.0",
+        "nodemon": "^2.0.4"
+    }
 }

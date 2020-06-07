@@ -114,6 +114,7 @@ musicAudio.addEventListener("loadedmetadata", (event) => {
 
 // 音乐播放器 状态监听渲染（更新时间）
 musicAudio.addEventListener("timeupdate", () => {
+    // todo: 支持点击跳转到目标进度
     renderPlayingSeeker(musicAudio.currentTime, musicAudio.duration);
 });
 
