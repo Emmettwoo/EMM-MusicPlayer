@@ -2,41 +2,27 @@
 
 
 
+![MainWindow.png](./images/MainWindow.png)
+
+---
+
 ## Intro.简介
 
 EMM-MusicPlayer，一款自用的（自娱自乐的）本地音乐播放器。
 
-用于体验/入门Electron开发，第一次搞GUI App，甚至有点小激动。
+用于体验/入门Electron开发，确实体验到了跨平台和开发上的方便，
 
-虽然Electron的性能一直被诟病，但你顶不住它开发容易啊哈哈哈。
-
----
-
-
-
-## Design.设计
-
-### 原型图
-
-- 主窗口
-
-![Collaboration_Diagram.png](./images/Prototype_MainWindow.png)
-
-- 添加音乐
-
-![Collaboration_Diagram.png](./images/Prototype_MusicAddWindow.png)
+以及 软件包臃肿不堪 和 运行效率低下 的Electron“优良传统”。
 
 ---
 
+Version.版本
 
-
-### 通信图
-
-![Collaboration_Diagram.png](./images/CollaborationDiagram.png)
+- [x] V1.0.0 First Stable Realese 初始稳定版本
+- [ ] V1.1.0 Simplify UserInterface 精简用户界面
+- [ ] V1.2.0 Progress Bar Jump 支持播放进度跳转
 
 ---
-
-
 
 ## Thanks.鸣谢
 
