@@ -57,8 +57,9 @@ const renderPlayingStatusHTML = (trackName, trackDuration) => {
 const renderPlayingSeeker = (seekerTime, trackDuration) => {
     const playingProgress = Math.floor(seekerTime / trackDuration * 100);
     const playingProgressBar = $("playing-progress-bar");
-    // playingProgressBar.innerHTML = playingProgress + "%";
     playingProgressBar.style.width = playingProgress + "%";
+
+    console.log(trackDurationFormart(seekerTime));
 
     const seeker = $("playing-status-seeker");
     seeker.innerHTML = trackDurationFormart(seekerTime);
@@ -85,17 +86,17 @@ $("tracks-list-wrap").addEventListener("click", (event) => {
         dataset,
         classList
     } = event.target;
-    const currentTrackId = dataset && dataset.id;
+    const targetTrackId = dataset && dataset.id;
 
     // 获取到了id，并且点击的是play按钮
-    if (currentTrackId !== null) {
+    if (targetTrackId !== null) {
         if (classList.contains("fa-play")) {
             // 目标id和当前id相同时直接续播，否则设定新目标
-            if (currentTrack && currentTrack.id === currentTrackId) {
+            if (currentTrack && currentTrack.id === targetTrackId) {
                 trackAudio.play();
             } else {
                 // 获取到id对应的track，并播放其path对应的文件
-                currentTrack = allTracks.find((track) => track.id === currentTrackId);
+                currentTrack = allTracks.find((track) => track.id === targetTrackId);
                 trackAudio.src = currentTrack.path;
                 trackAudio.play();
 
@@ -113,11 +114,12 @@ $("tracks-list-wrap").addEventListener("click", (event) => {
             classList.replace("fa-pause", "fa-play");
         } else if (classList.contains("fa-trash") && confirm("确认从播放列表移除？")) {
             // 删除的音乐为当前播放曲目，则暂停播放
-            if (currentTrack && currentTrack.id === currentTrackId) {
-                // todo: 目标歌曲被删除，播放状态栏重置
+            ipcRenderer.send("tracks-list-delete-button-click", targetTrackId);
+            if (currentTrack && currentTrack.id === targetTrackId) {
                 trackAudio.pause();
+                renderPlayingStatusHTML("无", 0);
+                // fixme: 因为js单线程的原因，进度条重置不了，暂时想不到解决方案。
             }
-            ipcRenderer.send("tracks-list-delete-button-click", currentTrackId);
         }
     } else {
         alert("播放音乐时出现错误！");
