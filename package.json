@@ -71,7 +71,7 @@
         "uuid": "^8.1.0"
     },
     "devDependencies": {
-        "electron": "^9.0.2",
+        "electron": "^9.3.0",
         "electron-builder": "^22.7.0",
         "nodemon": "^2.0.4"
     }
