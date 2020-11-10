@@ -40,14 +40,22 @@
             "target": [
                 "AppImage",
                 "deb",
-                "rpm",
-                "apk"
+                "rpm"
             ]
         },
         "win": {
-            "target": "portable",
+			"target": [
+				"nsis",
+				"portable"
+			],
             "icon": "build/icon.ico"
-        }
+        },
+		"nsis": {
+			"oneClick": false,
+			"perMachine": false,
+			"allowElevation": false,
+			"allowToChangeInstallationDirectory": true
+		}
     },
     "repository": {
         "type": "git",
@@ -57,7 +65,10 @@
         "Music",
         "Electron"
     ],
-    "author": "Emmett Woo",
+    "author": {
+		"name": "Emmett Woo",
+		"email": "Emmettwoo@Outlook.com"
+	},
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/Emmettwoo/EMM-MusicPlayer/issues"
